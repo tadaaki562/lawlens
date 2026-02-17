@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function HeroSection() {
   return (
-    <section className="relative w-full h-screen overflow-hidden">
+    <section className="relative w-full h-screen  overflow-hidden">
       {/* Background Image */}
       <Image 
         src="/Images/Landing Page/hero.jpg" 
@@ -26,12 +26,12 @@ export default function HeroSection() {
             you need without the jargon.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="px-8 py-3 rounded font-bold hover:opacity-60 transition" style={{ backgroundColor: '#735148', color: '#e3d3bc' }}>
+            <a href="#cta" className="px-8 py-3 rounded font-bold hover:opacity-60 transition" style={{ backgroundColor: '#735148', color: '#e3d3bc' }}>
               Start
-            </button>
-            <button className="px-8 py-3 rounded font-bold transition" style={{ border: '2px solid #e3d3bc', color: '#e3d3bc' }} onMouseEnter={(e) => { e.target.style.backgroundColor = '#e3d3bc'; e.target.style.color = '#313236'; }} onMouseLeave={(e) => { e.target.style.backgroundColor = 'transparent'; e.target.style.color = '#e3d3bc'; }}>
+            </a>
+            <a href="#about" className="px-8 py-3 rounded font-bold transition" style={{ border: '2px solid #e3d3bc', color: '#e3d3bc' }} onMouseEnter={(e) => { e.target.style.backgroundColor = '#e3d3bc'; e.target.style.color = '#313236'; }} onMouseLeave={(e) => { e.target.style.backgroundColor = 'transparent'; e.target.style.color = '#e3d3bc'; }}>
               Learn
-            </button>
+            </a>
           </div>
         </div>
       </div>

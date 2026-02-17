@@ -111,9 +111,6 @@ export default function Navbar() {
             <a href="/login" className="px-6 py-2 rounded hover:opacity-90 transition font-medium border-2 inline-block" style={{ borderColor: '#313236', color: '#313236', backgroundColor: 'transparent' }}>
               Login
             </a>
-            <a href="/signup" className="px-6 py-2 rounded hover:opacity-90 transition font-medium" style={{ backgroundColor: '#735148', color: '#e3d3bc' }}>
-              Sign up
-            </a>
           </div>
 
           {/* Mobile Hamburger Menu */}

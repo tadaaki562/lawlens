@@ -82,14 +82,6 @@ export default function SDGSection() {
               </a>
             </div>
 
-            <div className="flex gap-4">
-              <button className="px-6 py-2 rounded hover:opacity-80 transition font-medium" style={{ backgroundColor: '#F3EEED', color: '#0C2924' }}>
-                Learn
-              </button>
-              <button className="hover:underline font-medium" style={{ color: '#F3EEED' }}>
-                Discover →
-              </button>
-            </div>
           </div>
         </div>
       </div>

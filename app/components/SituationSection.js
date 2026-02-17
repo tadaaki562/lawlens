@@ -1,25 +1,35 @@
+'use client';
+
+import Image from 'next/image';
+
 export default function SituationSection() {
   const statistics = [
     {
       id: 1,
-      title: 'Seven in ten cannot read their contracts',
-      subtitle: 'Access',
-      description: 'Legal literacy remains low across all demographics',
-      link: 'Read',
+      title: 'Legal Literacy Is Low',
+      subtitle: 'Knowledge Gap',
+      description: 'Many Filipinos find legal documents hard to understand. A study among college students in the Philippines showed that 88% have limited legal knowledge, with only about 11.5% scoring proficient in understanding law concepts.',
+      link: 'Read Study',
+      url: 'https://legalresearchph.com/2021/05/17/gauging-the-depth-of-legal-knowledge-among-college-undergraduates/',
+      image: '/Images/Landing Page/knowledgegap.png'
     },
     {
       id: 2,
-      title: 'Legal advice remains expensive and out of reach',
-      subtitle: 'Cost keeps people away from help',
-      description: 'Time is money in the legal world',
-      link: 'Explore',
+      title: 'Awareness of Laws Is Not Universal',
+      subtitle: 'Awareness Gap',
+      description: 'Many people don\'t know which laws apply to them. A community study on awareness of the Cybercrime Prevention Act (RA 10175) found that about 25% of respondents were unaware of it, even though they regularly use the internet.',
+      link: 'Read Study',
+      url: 'https://rsisinternational.org/journals/ijriss/articles/assessing-cybercrime-awareness-and-experiences-among-netizen-a-study-on-the-impact-of-r-a-10175-in-pagadian-city/',
+      image: '/Images/Landing Page/awarenessgap.png'
     },
     {
       id: 3,
-      title: 'Waiting for answers wastes hours and resources',
-      subtitle: 'Discover',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-      link: 'Button',
+      title: 'Comprehension: Legal Language Is Difficult to Understand',
+      subtitle: 'Comprehension Gap',
+      description: 'A cognitive science study found that people recall and understand legal text much better when it is rewritten in plain language — meaning the original legalese is inherently harder to process.',
+      link: 'Read Study',
+      url: 'https://www.sciencedirect.com/science/article/pii/S0010027722000580',
+      image: '/Images/Landing Page/comprehensiongap.png'
     },
   ];
 
@@ -30,10 +40,10 @@ export default function SituationSection() {
           Reality
         </h2>
         <h3 className="text-3xl md:text-4xl font-bold text-center mb-16" style={{ color: '#313236' }}>
-          The knowledge gap is real
+          Three Knowledge Gaps in the Philippines
         </h3>
         <p className="text-center mb-16 max-w-2xl mx-auto" style={{ color: '#735148' }}>
-          Most people struggle to understand legal documents on their own
+          Research shows that many Filipinos struggle with legal literacy, awareness, and comprehension
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -43,27 +53,21 @@ export default function SituationSection() {
               className="border rounded-lg p-8 hover:shadow-lg transition-all duration-300 transform hover:scale-105 cursor-pointer"
               style={{ borderColor: '#735148', backgroundColor: '#FFFFFF' }}
             >
-              {/* Placeholder image */}
-              <div className="rounded h-40 mb-6 flex items-center justify-center" style={{ backgroundColor: '#735148', color: '#e3d3bc' }}>
-                <svg
-                  className="w-16 h-16"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1}
-                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
+              {/* Image */}
+              <div className="rounded h-40 mb-6 overflow-hidden bg-gray-200">
+                <Image
+                  src={stat.image}
+                  alt={stat.title}
+                  width={300}
+                  height={160}
+                  className="w-full h-full object-cover"
+                />
               </div>
 
               <p className="text-sm font-semibold mb-2" style={{ color: '#735148' }}>{stat.subtitle}</p>
               <h3 className="text-2xl font-bold mb-4" style={{ color: '#313236' }}>{stat.title}</h3>
               <p className="mb-6" style={{ color: '#735148' }}>{stat.description}</p>
-              <a href="#" className="font-semibold hover:underline" style={{ color: '#313236' }}>
+              <a href={stat.url} target="_blank" rel="noopener noreferrer" className="font-semibold hover:underline" style={{ color: '#313236' }}>
                 {stat.link} →
               </a>
             </div>

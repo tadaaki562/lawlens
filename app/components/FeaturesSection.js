@@ -40,53 +40,64 @@ export default function FeaturesSection() {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {features.slice(0, 4).map((feature) => (
+          {features.slice(0, 4).map((feature) => {
+            const getIcon = () => {
+              switch(feature.id) {
+                case 1: // Input - speech bubble
+                  return (
+                    <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                    </svg>
+                  );
+                case 2: // Sorting - simple stack
+                  return (
+                    <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                  );
+                case 3: // Clarity - lightbulb
+                  return (
+                    <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9.663 17h4.673M12 6v1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      <circle cx="12" cy="12" r="1" fill="currentColor" />
+                    </svg>
+                  );
+                case 4: // Sources - link/document
+                  return (
+                    <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.658 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                    </svg>
+                  );
+                default:
+                  return null;
+              }
+            };
+            return (
             <div
               key={feature.id}
               className="border rounded-lg p-6 hover:shadow-lg transition-all duration-300 transform hover:scale-105"
               style={{ borderColor: '#735148', backgroundColor: '(158, 142, 119, 0.1)' }}
             >
-              {/* Placeholder image */}
+              {/* Context-specific icon */}
               <div className="rounded h-32 mb-4 flex items-center justify-center" style={{ backgroundColor: '#735148', color: '#e3d3bc' }}>
-                <svg
-                  className="w-12 h-12"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1}
-                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
+                {getIcon()}
               </div>
 
               <p className="text-sm font-semibold mb-2" style={{ color: '#e3d3bc' }}>{feature.subtitle}</p>
               <h3 className="text-xl font-bold mb-3" style={{ color: '#e3d3bc' }}>{feature.title}</h3>
               <p className="mb-4 text-sm" style={{ color: '#e3d3bc' }}>{feature.description}</p>
             </div>
-          ))}
+            );
+          })}
         </div>
 
-        {/* Warning section - full width */}
-        <div className="border rounded-lg p-8 md:p-12 grid md:grid-cols-2 gap-8 items-center" style={{ borderColor: '#735148', backgroundColor: 'rgba(227, 211, 188, 0.05)' }}>
+        {/* Warning section - contained width */}
+        <div className="border rounded-lg p-8 md:p-12 grid md:grid-cols-2 gap-8 items-center max-w-4xl mx-auto" style={{ borderColor: '#735148', backgroundColor: 'rgba(227, 211, 188, 0.05)' }}>
           <div>
-            {/* Placeholder image */}
-            <div className="rounded h-64 flex items-center justify-center" style={{ backgroundColor: '#735148', color: '#e3d3bc' }}>
-              <svg
-                className="w-20 h-20"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1}
-                  d="M12 9v2m0 4v2m0 4v2m6-8a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
+            {/* Warning icon */}
+            <div className="rounded h-40 flex items-center justify-center" style={{ backgroundColor: '#735148', color: '#e3d3bc' }}>
+              <svg className="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4m0 4v.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
           </div>
