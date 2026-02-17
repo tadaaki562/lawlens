@@ -86,12 +86,13 @@ export default function SignupPage() {
         </div>
 
         {/* Sign Up Button */}
-        <button
-          className="w-full py-3 rounded font-bold text-white mb-6 hover:opacity-90 transition"
+        <Link
+          href="/app"
+          className="w-full block py-3 rounded font-bold text-white mb-6 hover:opacity-90 transition text-center"
           style={{ backgroundColor: '#313236' }}
         >
           Sign Up
-        </button>
+        </Link>
 
         {/* Login Link */}
         <div className="text-center text-sm">

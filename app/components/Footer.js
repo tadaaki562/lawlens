@@ -2,7 +2,7 @@
 
 export default function Footer() {
   return (
-    <footer className="py-16 px-4" style={{ backgroundColor: '#313236', borderTop: '1px solid #735148' }}>
+    <footer id="contact" className="py-16 px-4" style={{ backgroundColor: '#313236', borderTop: '1px solid #735148' }}>
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-3 md:gap-80 gap-8 mb-12 ">
           {/* Logo Section */}

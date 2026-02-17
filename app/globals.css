@@ -1,11 +1,13 @@
 @import "tailwindcss";
 
+
 :root {
   --background: #e3d3bc;
   --foreground: #313236;
   --primary: #313236;
   --secondary: #735148;
   --accent: #e3d3bc;
+  scroll-behavior: smooth;
 }
 
 @theme inline {

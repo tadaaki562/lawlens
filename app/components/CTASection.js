@@ -1,3 +1,7 @@
+'use client';
+
+import Link from 'next/link';
+
 export default function CTASection() {
   return (
     <section className="py-20 px-4" style={{ backgroundColor: '#e3d3bc' }}>
@@ -10,9 +14,9 @@ export default function CTASection() {
         </p>
 
         <div className="flex gap-4 justify-center mb-16">
-          <button className="px-8 py-3 rounded font-bold hover:opacity-90 transition" style={{ backgroundColor: '#313236', color: '#e3d3bc' }}>
+          <Link href="/app" className="px-8 py-3 rounded font-bold hover:opacity-90 transition inline-block" style={{ backgroundColor: '#313236', color: '#e3d3bc' }}>
             Begin
-          </button>
+          </Link>
           <a href="/login" className="px-8 py-3 rounded font-bold hover:opacity-90 transition inline-block border-2" style={{ borderColor: '#313236', color: '#313236', backgroundColor: 'transparent' }}>
             Login
           </a>

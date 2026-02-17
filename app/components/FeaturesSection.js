@@ -27,7 +27,7 @@ export default function FeaturesSection() {
   ];
 
   return (
-    <section className="py-20 px-4" style={{ backgroundColor: '#313236' }}>
+    <section id="features" className="py-20 px-4" style={{ backgroundColor: '#313236' }}>
       <div className="max-w-6xl mx-auto">
         <h2 className="text-4xl md:text-4xl font-bold text-center mb-4" style={{ color: '#e3d3bc' }}>
           Capability
