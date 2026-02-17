@@ -19,18 +19,18 @@ export default function Navbar() {
             <a
               href="#about"
               className="font-medium transition"
-              style={{ color: '#0C2924' }}
-              onMouseEnter={(e) => e.target.style.color = '#567470'}
-              onMouseLeave={(e) => e.target.style.color = '#0C2924'}
+              style={{ color: '#313236' }}
+              onMouseEnter={(e) => e.target.style.color = '#735148'}
+              onMouseLeave={(e) => e.target.style.color = '#313236'}
             >
               About us
             </a>
             <a
               href="#features"
               className="font-medium transition"
-              style={{ color: '#0C2924' }}
-              onMouseEnter={(e) => e.target.style.color = '#567470'}
-              onMouseLeave={(e) => e.target.style.color = '#0C2924'}
+              style={{ color: '#313236' }}
+              onMouseEnter={(e) => e.target.style.color = '#735148'}
+              onMouseLeave={(e) => e.target.style.color = '#313236'}
             >
               Features
             </a>
@@ -40,9 +40,9 @@ export default function Navbar() {
               <button
                 onClick={() => setIsResourcesOpen(!isResourcesOpen)}
                 className="font-medium transition flex items-center gap-1"
-                style={{ color: '#0C2924' }}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#567470'}
-                onMouseLeave={(e) => e.currentTarget.style.color = '#0C2924'}
+                style={{ color: '#313236' }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#735148'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#313236'}
               >
                 Resources
                 <svg
@@ -100,10 +100,18 @@ export default function Navbar() {
             </div>
           </div>
 
-          {/* Start Button */}
-          <button className="px-6 py-2 rounded hover:opacity-90 transition font-medium" style={{ backgroundColor: '#313236', color: '#e3d3bc' }}>
-            Start
-          </button>
+          {/* Start, Login, and Signup Buttons */}
+          <div className="flex items-center gap-3">
+            <button className="px-6 py-2 rounded hover:opacity-90 transition font-medium" style={{ backgroundColor: '#313236', color: '#e3d3bc' }}>
+              Start
+            </button>
+            <a href="/login" className="px-6 py-2 rounded hover:opacity-90 transition font-medium border-2 inline-block" style={{ borderColor: '#313236', color: '#313236', backgroundColor: 'transparent' }}>
+              Login
+            </a>
+            <a href="/signup" className="px-6 py-2 rounded hover:opacity-90 transition font-medium" style={{ backgroundColor: '#735148', color: '#e3d3bc' }}>
+              Sign up
+            </a>
+          </div>
         </div>
       </div>
     </nav>

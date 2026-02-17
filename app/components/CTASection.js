@@ -9,9 +9,14 @@ export default function CTASection() {
           Start decoding legal documents today. Your questions deserve clear answers.
         </p>
 
-        <button className="px-8 py-3 rounded font-bold hover:opacity-90 transition mb-16" style={{ backgroundColor: '#313236', color: '#e3d3bc' }}>
-          Begin
-        </button>
+        <div className="flex gap-4 justify-center mb-16">
+          <button className="px-8 py-3 rounded font-bold hover:opacity-90 transition" style={{ backgroundColor: '#313236', color: '#e3d3bc' }}>
+            Begin
+          </button>
+          <a href="/login" className="px-8 py-3 rounded font-bold hover:opacity-90 transition inline-block border-2" style={{ borderColor: '#313236', color: '#313236', backgroundColor: 'transparent' }}>
+            Login
+          </a>
+        </div>
 
         {/* Large placeholder image */}
         <div className="rounded-lg h-80 flex items-center justify-center" style={{ backgroundColor: '#735148', color: '#e3d3bc' }}>
