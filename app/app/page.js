@@ -76,11 +76,19 @@ export default function AppPage() {
   const [isResizing, setIsResizing] = useState(false);
   const [activeLaw, setActiveLaw] = useState(null);
   const [awaitingClarification, setAwaitingClarification] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const bottomRef = useRef(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading]);
+
+  useEffect(() => {
+  const check = () => setIsMobile(window.innerWidth < 768);
+  check();
+  window.addEventListener('resize', check);
+  return () => window.removeEventListener('resize', check);
+}, []);
 
   const sendMessage = async (text) => {
     const userText = (text || input).trim();
@@ -194,7 +202,7 @@ export default function AppPage() {
     >
       {/* Sidebar */}
       <div
-        className={`transition-all duration-300 ${isSidebarOpen ? 'w-64' : 'w-20'} flex flex-col flex-shrink-0`}
+        className={`transition-all duration-300 ${isSidebarOpen ? 'w-64' : 'w-20'} flex-col flex-shrink-0 hidden md:flex`}
         style={{ backgroundColor: '#313236', color: '#e3d3bc', borderRight: '1px solid #735148' }}
       >
         {/* Logo / Home Button */}
@@ -277,7 +285,7 @@ export default function AppPage() {
         </nav>
 
         {/* Main Content Container */}
-        <div className="flex flex-1 overflow-hidden main-content-container">
+        <div className="flex flex-col md:flex-row flex-1 overflow-hidden main-content-container">
 
           {/* Chat Area */}
           <div
@@ -381,9 +389,10 @@ export default function AppPage() {
           {/* Resizable Divider */}
           <div
             onMouseDown={handleMouseDown}
+            className="hidden md:block"
             style={{
-              width: '4px',
-              flexShrink: 0,
+            width: '4px',
+            flexShrink: 0,
               backgroundColor: isResizing ? '#735148' : '#e0e0e0',
               cursor: 'col-resize',
               userSelect: 'none',
@@ -393,9 +402,14 @@ export default function AppPage() {
 
           {/* Right Panel — Law Viewer */}
           <div
-            className="flex flex-col overflow-hidden border-l flex-shrink-0"
-            style={{ width: `${rightPanelWidth}px`, backgroundColor: '#fafafa', borderColor: '#e0e0e0' }}
-          >
+          className="flex flex-col overflow-hidden border-t md:border-t-0 md:border-l flex-shrink-0"
+           style={{
+           width: isMobile ? '100%' : rightPanelWidth,
+           maxHeight: isMobile ? '40vh' : 'none',
+            backgroundColor: '#fafafa',
+           borderColor: '#e0e0e0',
+           }}
+>
             {/* Header */}
             <div
               className="px-4 py-3 border-b font-semibold text-sm flex-shrink-0"
