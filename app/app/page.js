@@ -32,8 +32,8 @@ function MessageBubble({ msg, onFeedback }) {
               components={{
                 p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
                 strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
-                    ul: ({ children }) => <ul className="list-disc list-outside pl-5 my-3 space-y-2">{children}</ul>,
-                        li: ({ children }) => <li className="leading-relaxed">{children}</li>,
+                ul: ({ children }) => <ul className="list-disc list-outside pl-5 my-3 space-y-2">{children}</ul>,
+                li: ({ children }) => <li className="leading-relaxed">{children}</li>,
               }}
             >
               {msg.content}
@@ -77,6 +77,7 @@ export default function AppPage() {
   const [activeLaw, setActiveLaw] = useState(null);
   const [awaitingClarification, setAwaitingClarification] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const bottomRef = useRef(null);
 
   useEffect(() => {
@@ -84,11 +85,11 @@ export default function AppPage() {
   }, [messages, isLoading]);
 
   useEffect(() => {
-  const check = () => setIsMobile(window.innerWidth < 768);
-  check();
-  window.addEventListener('resize', check);
-  return () => window.removeEventListener('resize', check);
-}, []);
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   const sendMessage = async (text) => {
     const userText = (text || input).trim();
@@ -100,6 +101,7 @@ export default function AppPage() {
     setInput('');
     setIsLoading(true);
     setAwaitingClarification(false);
+    setIsDrawerOpen(false);
 
     const detectedFromUser = detectLaw(userText);
     setActiveLaw(detectedFromUser);
@@ -108,8 +110,11 @@ export default function AppPage() {
       const history = updated.map((m) => ({ role: m.role, content: m.content }));
       const aiText = await callGemini(history);
       const detectedFromAI = detectLaw(aiText);
-      if (detectedFromAI) setActiveLaw(detectedFromAI);
-      else if (!detectedFromUser) setActiveLaw(null);
+      if (detectedFromAI) {
+        setActiveLaw(detectedFromAI);
+      } else if (!detectedFromUser) {
+        setActiveLaw(null);
+      }
       setMessages((prev) => [
         ...prev,
         { id: Date.now() + 1, role: 'assistant', content: aiText, feedback: null },
@@ -125,47 +130,47 @@ export default function AppPage() {
   };
 
   const handleFeedback = async (id, type) => {
-  setMessages((prev) =>
-    prev.map((m) => (m.id === id ? { ...m, feedback: type } : m))
-  );
+    setMessages((prev) =>
+      prev.map((m) => (m.id === id ? { ...m, feedback: type } : m))
+    );
 
-  if (type === 'down') {
-    setIsLoading(true);
-    try {
-      const clarifyPrompt = [
-        ...messages.map((m) => ({ role: m.role, content: m.content })),
-        {
-          role: 'user',
-          content: 'The user was not satisfied with your last answer. Acknowledge that briefly and ask them one short, specific question to help you give a better answer. Keep it conversational and warm, under 2 sentences.',
-        },
-      ];
-      const aiText = await callGemini(clarifyPrompt);
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now(),
-          role: 'assistant',
-          feedback: null,
-          isFollowUp: true,
-          content: aiText,
-        },
-      ]);
-    } catch (err) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: Date.now(),
-          role: 'assistant',
-          feedback: null,
-          isFollowUp: true,
-          content: `I'm sorry that wasn't helpful. Could you tell me more about what you're trying to find out?`,
-        },
-      ]);
-    } finally {
-      setIsLoading(false);
+    if (type === 'down') {
+      setIsLoading(true);
+      try {
+        const clarifyPrompt = [
+          ...messages.map((m) => ({ role: m.role, content: m.content })),
+          {
+            role: 'user',
+            content: 'The user was not satisfied with your last answer. Acknowledge that briefly and ask them one short, specific question to help you give a better answer. Keep it conversational and warm, under 2 sentences.',
+          },
+        ];
+        const aiText = await callGemini(clarifyPrompt);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: Date.now(),
+            role: 'assistant',
+            feedback: null,
+            isFollowUp: true,
+            content: aiText,
+          },
+        ]);
+      } catch (err) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: Date.now(),
+            role: 'assistant',
+            feedback: null,
+            isFollowUp: true,
+            content: `I'm sorry that wasn't helpful. Could you tell me more about what you're trying to find out?`,
+          },
+        ]);
+      } finally {
+        setIsLoading(false);
+      }
     }
-  }
-};
+  };
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -205,7 +210,6 @@ export default function AppPage() {
         className={`transition-all duration-300 ${isSidebarOpen ? 'w-64' : 'w-20'} flex-col flex-shrink-0 hidden md:flex`}
         style={{ backgroundColor: '#313236', color: '#e3d3bc', borderRight: '1px solid #735148' }}
       >
-        {/* Logo / Home Button */}
         <Link
           href="/"
           className="p-4 hover:opacity-80 transition text-2xl font-bold text-center"
@@ -214,12 +218,11 @@ export default function AppPage() {
           {isSidebarOpen ? 'LawLens' : 'L'}
         </Link>
 
-        {/* Navigation Items */}
         <nav className="flex-1 overflow-y-auto p-4 space-y-3">
           <div
             className="p-3 rounded cursor-pointer hover:opacity-80 transition text-center"
             style={{ backgroundColor: '#735148' }}
-            onClick={() => { setMessages([]); setActiveLaw(null); }}
+            onClick={() => { setMessages([]); setActiveLaw(null); setIsDrawerOpen(false); }}
           >
             {isSidebarOpen ? 'New Chat' : '+'}
           </div>
@@ -244,7 +247,6 @@ export default function AppPage() {
           </div>
         </nav>
 
-        {/* Bottom Section */}
         <div className="p-4 space-y-3 border-t" style={{ borderColor: '#735148' }}>
           <Link
             href="/login"
@@ -285,7 +287,7 @@ export default function AppPage() {
         </nav>
 
         {/* Main Content Container */}
-        <div className="flex flex-col md:flex-row flex-1 overflow-hidden main-content-container">
+        <div className="flex flex-row flex-1 overflow-hidden main-content-container">
 
           {/* Chat Area */}
           <div
@@ -343,6 +345,86 @@ export default function AppPage() {
               <div ref={bottomRef} />
             </div>
 
+            {/* Mobile Peek Bar — shows when a law is detected and drawer is closed */}
+            {isMobile && currentLaw && !isDrawerOpen && (
+              <div
+                onClick={() => setIsDrawerOpen(true)}
+                className="flex items-center justify-between px-4 py-3 cursor-pointer flex-shrink-0"
+                style={{ backgroundColor: '#e3d3bc', borderTop: '2px solid #735148' }}
+              >
+                <span className="text-sm font-medium truncate pr-2" style={{ color: '#313236' }}>
+                  📖 {currentLaw.label} — tap to view
+                </span>
+                <span style={{ color: '#735148', fontWeight: 'bold' }}>↑</span>
+              </div>
+            )}
+
+            {/* Mobile Drawer */}
+            {isMobile && isDrawerOpen && (
+              <div
+                className="flex flex-col flex-shrink-0"
+                style={{ height: '55vh', borderTop: '2px solid #735148', backgroundColor: '#fafafa' }}
+              >
+                {/* Drawer Header */}
+                <div
+                  className="flex items-center justify-between px-4 py-3 flex-shrink-0"
+                  style={{ backgroundColor: '#f0e8e3', borderBottom: '1px solid #e0e0e0' }}
+                >
+                  <div>
+                    <p className="text-sm font-semibold" style={{ color: '#313236' }}>
+                      {currentLaw ? currentLaw.label : 'Law Viewer'}
+                    </p>
+                    {currentLaw && (
+                      <p className="text-xs" style={{ color: '#735148' }}>
+                        Enacted: {currentLaw.date}
+                      </p>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => setIsDrawerOpen(false)}
+                    className="text-xs px-3 py-1 rounded font-medium"
+                    style={{ backgroundColor: '#735148', color: '#fff' }}
+                  >
+                    ✕ Close
+                  </button>
+                </div>
+
+                {/* Drawer Law Text */}
+                <div className="flex-1 overflow-y-auto p-4" style={{ color: '#333' }}>
+                  {currentLaw ? (
+                    <p className="text-xs leading-relaxed whitespace-pre-wrap" style={{ fontFamily: 'monospace' }}>
+                      {currentLaw.summary}
+                    </p>
+                  ) : (
+                    <p className="text-sm" style={{ color: '#999' }}>
+                      The relevant law will appear here once you ask a question.
+                    </p>
+                  )}
+                </div>
+
+                {/* Drawer Source */}
+                <div
+                  className="px-4 py-3 border-t flex-shrink-0 text-xs"
+                  style={{ backgroundColor: '#f0e8e3', borderColor: '#e0e0e0', color: '#313236' }}
+                >
+                  <p className="font-semibold mb-1">Source:</p>
+                  {currentLaw ? (
+                    <a
+                      href={currentLaw.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="underline break-all"
+                      style={{ color: '#735148' }}
+                    >
+                      {currentLaw.url}
+                    </a>
+                  ) : (
+                    <p style={{ color: '#999' }}>Official Gazette / LawPhil Database</p>
+                  )}
+                </div>
+              </div>
+            )}
+
             {/* Prompt Input Bar */}
             <div className="p-4 border-t flex-shrink-0" style={{ borderColor: '#e0e0e0' }}>
               <div className="flex gap-2">
@@ -386,13 +468,13 @@ export default function AppPage() {
             </div>
           </div>
 
-          {/* Resizable Divider */}
+          {/* Resizable Divider — desktop only */}
           <div
             onMouseDown={handleMouseDown}
             className="hidden md:block"
             style={{
-            width: '4px',
-            flexShrink: 0,
+              width: '4px',
+              flexShrink: 0,
               backgroundColor: isResizing ? '#735148' : '#e0e0e0',
               cursor: 'col-resize',
               userSelect: 'none',
@@ -400,16 +482,15 @@ export default function AppPage() {
             }}
           />
 
-          {/* Right Panel — Law Viewer */}
+          {/* Right Panel — desktop only */}
           <div
-          className="flex flex-col overflow-hidden border-t md:border-t-0 md:border-l flex-shrink-0"
-           style={{
-           width: isMobile ? '100%' : rightPanelWidth,
-           maxHeight: isMobile ? '40vh' : 'none',
-            backgroundColor: '#fafafa',
-           borderColor: '#e0e0e0',
-           }}
->
+            className="hidden md:flex flex-col overflow-hidden border-l flex-shrink-0"
+            style={{
+              width: rightPanelWidth,
+              backgroundColor: '#fafafa',
+              borderColor: '#e0e0e0',
+            }}
+          >
             {/* Header */}
             <div
               className="px-4 py-3 border-b font-semibold text-sm flex-shrink-0"
